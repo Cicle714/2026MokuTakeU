@@ -19,12 +19,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(Mathf.Abs(StartPos.magnitude - EndPos.magnitude));
         if (IsPush)
         {
             PushCount += Time.deltaTime;
-            EndPos = Mouse.current.position.ReadValue();
+            EndPos = Pointer.current.position.ReadValue();
 
-            if (Mathf.Abs(StartPos.magnitude - EndPos.magnitude) >= 300)
+            float distance = Vector2.Distance(StartPos, EndPos);
+
+            if (distance >= 100f)
             {
                 Sword.IsAttack = true;
                 Debug.Log("çUåÇÅI");
@@ -39,7 +42,7 @@ public class Player : MonoBehaviour
         if (context.started)
         {
             IsPush = true;
-            StartPos = Mouse.current.position.ReadValue();
+            StartPos = Pointer.current.position.ReadValue();
         }
 
 
