@@ -3,17 +3,30 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    GameManager gameManager;
+
     private bool IsPush;
     private float PushCount;
     private float TapCount = 0.1f;
-    private Animator anim;
+    public Animator anim;
 
     private Vector3 StartPos;
     private Vector3 EndPos;
+
+    public bool Guard;
+    private float GuardCount;
+    private bool GuardDelay;
+    private float GuardDelayCount;
+
+    public int maxHp;
+    public int hp;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         anim = GetComponent<Animator>();
+        hp = maxHp;
     }
 
     // Update is called once per frame
@@ -35,21 +48,50 @@ public class Player : MonoBehaviour
                 anim.Play("HumanM@Attack1H01_R");
             }
         }
+
+
+        if (Guard)
+        {
+            GuardCount += Time.deltaTime;
+            if(GuardCount > 0.5f)
+            {
+                GuardCount = 0;
+                Guard = false;
+                GuardDelay = true;
+            }
+        }
+        if (GuardDelay)
+        {
+            GuardDelayCount += Time.deltaTime;
+            if(GuardDelayCount > 0.5f)
+            {
+                GuardDelayCount = 0;
+                GuardDelay = false;
+            }
+        }
+
     }
     public void SlideAttack(InputAction.CallbackContext context)
     {
-
-        if (context.started)
+        if (!anim.GetBool("Run") && hp > 0)
         {
-            IsPush = true;
-            StartPos = Pointer.current.position.ReadValue();
-        }
+            if (context.started)
+            {
+                IsPush = true;
+                StartPos = Pointer.current.position.ReadValue();
+            }
 
 
-        if (context.canceled)
-        {
-            PushCount = 0;
-            IsPush = false;
+            if (context.canceled)
+            {
+                if (IsPush && !GuardDelay && !Guard)
+                {
+                    Guard = true;
+                    anim.Play("HumanM@Attack1H01_L 0");
+                }
+                PushCount = 0;
+                IsPush = false;
+            }
         }
     }
 }

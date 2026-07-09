@@ -5,7 +5,7 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField]
     public int HP;
     [SerializeField]
-    private int MaxHP;
+    public int MaxHP;
     [SerializeField]
     private int AttackPow;
     void Start()
