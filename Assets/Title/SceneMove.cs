@@ -5,15 +5,12 @@ using UnityEngine.SceneManagement;
 public class SceneMove : MonoBehaviour
 {
 
-    void Start()
+    void Awake()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-
     }
     public void ScreenTouch(InputAction.CallbackContext context)
     {

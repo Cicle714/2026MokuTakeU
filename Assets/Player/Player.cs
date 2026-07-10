@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
                 if (IsPush && !GuardDelay && !Guard)
                 {
                     Guard = true;
-                    anim.Play("HumanM@Attack1H01_L 0");
+                    anim.Play("Guard");
                 }
                 PushCount = 0;
                 IsPush = false;

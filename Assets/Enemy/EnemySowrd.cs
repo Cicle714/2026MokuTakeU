@@ -18,14 +18,22 @@ public class EnemySowrd : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<Player>() && enemy.Attack && !player.Guard)
+        if (other.gameObject.GetComponent<Player>() && enemy.Attack)
         {
-            player.hp--;
-            if(player.hp <= 0)
+            if (!player.Guard)
             {
-                player.anim.Play("HumanM@Death01");
-            }else
-                player.anim.Play("HumanM@CombatDamage01");
+                player.hp--;
+                if (player.hp <= 0)
+                {
+                    player.anim.Play("HumanM@Death01");
+                }
+                else
+                    player.anim.Play("HumanM@CombatDamage01");
+            }
+            else
+            {
+                enemy.GetComponent<Animator>() .Play("repelled");
+            }
         }
     }
 
