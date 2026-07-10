@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Enemy : EnemyStatus
 {
-    private Animator anim;
+    public Animator anim;
     [SerializeField]
     private List<AnimatorOverrideController> anims;
 

@@ -26,6 +26,8 @@ public class EnemySowrd : MonoBehaviour
                 if (player.hp <= 0)
                 {
                     player.anim.Play("HumanM@Death01");
+                    enemy.anim.Play("smile");
+                    enemy.move = false;
                 }
                 else
                     player.anim.Play("HumanM@CombatDamage01");
