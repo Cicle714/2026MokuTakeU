@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         if (IsPush)
         {
             PushCount += Time.deltaTime;
-            EndPos = Pointer.current.position.ReadValue();
+            EndPos = Touchscreen.current.position.ReadValue();
 
             float distance = Vector2.Distance(StartPos, EndPos);
 
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
             if (context.started)
             {
                 IsPush = true;
-                StartPos = Pointer.current.position.ReadValue();
+                StartPos = Touchscreen.current.position.ReadValue();
             }
 
 
