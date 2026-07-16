@@ -13,25 +13,34 @@ public class Enemy : EnemyStatus
     public bool Attack = false;
     private float AttackCount = 0;
 
+    private float AttackDelay = 0;
+
     void Start()
     {
         anim = GetComponent<Animator>();
+        AttackDelay = Random.Range(0.0f, 1.0f);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        count += Time.deltaTime;
-        if (count > 2 && HP > 0 && move)
+        if (move)
         {
+            count += Time.deltaTime;
+        }
+        if (count > AttackDelay && HP > 0)
+        {
+            AttackDelay = Random.Range(1.0f, 2.5f);
             count = 0;
+            anim.Play(null);
             anim.Play("root|slash01");
             Attack = true;
         }
         if (Attack)
         {
             AttackCount += Time.deltaTime;
-            if(AttackCount > 0.5f)
+            if(AttackCount > 1f)
             {
                 AttackCount = 0;
                 Attack = false;
@@ -43,6 +52,7 @@ public class Enemy : EnemyStatus
         HP -= PlayerAttack;
         if (HP <= 0)
         {
+            Attack = false;
             move = false;
             anim.Play("root|death");
         }

@@ -22,6 +22,7 @@ public class EnemySowrd : MonoBehaviour
         {
             if (!player.Guard)
             {
+                player.hit = true;
                 player.hp--;
                 if (player.hp <= 0)
                 {

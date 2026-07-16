@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     public int maxHp;
     public int hp;
 
+    public bool hit;
+    private float HitDelay;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,6 +35,20 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (hp <= 0) return;
+
+        if (hit)
+        {
+            HitDelay += Time.deltaTime;
+            if (HitDelay >= 0.5)
+            {
+                hit = false;
+                HitDelay = 0;
+            }
+            return;
+        }
+
+
         Debug.Log(Mathf.Abs(StartPos.magnitude - EndPos.magnitude));
         if (IsPush)
         {
@@ -42,10 +59,19 @@ public class Player : MonoBehaviour
 
             if (distance >= 100f)
             {
-                Sword.IsAttack = true;
                 Debug.Log("UŒ‚I");
                 IsPush = false;
+
+                anim.Play(null);
                 anim.Play("HumanM@Attack1H01_R");
+                Sword.IsAttack = true;
+
+                if (Guard)
+                {
+                    GuardCount = 0;
+                    Guard = false;
+                    GuardDelay = true;
+                }
             }
         }
 
@@ -53,7 +79,7 @@ public class Player : MonoBehaviour
         if (Guard)
         {
             GuardCount += Time.deltaTime;
-            if(GuardCount > 0.5f)
+            if(GuardCount > 0.75f)
             {
                 GuardCount = 0;
                 Guard = false;
@@ -84,7 +110,7 @@ public class Player : MonoBehaviour
 
             if (context.canceled)
             {
-                if (IsPush && !GuardDelay && !Guard)
+                if (IsPush && !GuardDelay && !Guard && !hit)
                 {
                     Guard = true;
                     anim.Play("Guard");

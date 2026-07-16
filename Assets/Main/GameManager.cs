@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public int EnemyNum;
 
     public int BattleNum;
+
+    public bool GameClear;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,19 +25,26 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i <= EnemyNum; i++)
         {
             enemys.Add(Instantiate(enemy, player.transform.position + player.transform.forward * (i * 10) + player.transform.forward * 1.5f, player.transform.rotation * Quaternion.Euler(0, 180, 0)));
-            enemys[BattleNum].move = true;
+
+            enemys[i].GetComponent<Enemy>().MaxHP = i + 5;
+            enemys[i].GetComponent<Enemy>().HP = i + 5;
         }
+        enemys[BattleNum].move = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(!GameClear)
         if (enemys[BattleNum].GetComponent<Enemy>().HP <= 0)
         {
             ui.EnemyHP.gameObject.SetActive(false);
             BattleNum++;
-            StartCoroutine(MoveIEnum(player.transform.position));
+            if(BattleNum >= enemys.Count)
+            {
+                GameClear = true;
+            }else
+                StartCoroutine(MoveIEnum(player.transform.position));
         }
     }
 
@@ -51,7 +60,7 @@ public class GameManager : MonoBehaviour
         while (count <= 2)
         {
             count += Time.deltaTime;
-            player.transform.position = Vector3.Lerp(StartPos, enemys[BattleNum].transform.position + enemys[BattleNum].transform.forward * 1.5f, count / 2);
+            player.transform.position = Vector3.Lerp(StartPos, enemys[BattleNum].transform.position + enemys[BattleNum].transform.forward * 1.75f, count / 2);
             yield return null;
         }
 

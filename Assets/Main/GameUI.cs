@@ -11,7 +11,9 @@ public class GameUI : MonoBehaviour
     private Slider PlayerHP;
     public Slider EnemyHP;
     [SerializeField]
-    Image Black;
+    Image Black; 
+    [SerializeField]
+    Text GameClearText;
     private float BlackCount;
     void Start()
     {
@@ -23,9 +25,12 @@ public class GameUI : MonoBehaviour
     void Update()
     {
         PlayerHP.value = (float)(player.hp) / (float)(player.maxHp);
+        if(gameManager.enemys.Count > gameManager.BattleNum)
         EnemyHP.value = (float)(gameManager.enemys[gameManager.BattleNum].GetComponent<Enemy>().HP)/ (float)(gameManager.enemys[gameManager.BattleNum].GetComponent<Enemy>().MaxHP);
-        if(player.hp <= 0)
+        if(player.hp <= 0 || gameManager.GameClear)
         {
+            if(gameManager.GameClear)
+               GameClearText.gameObject.SetActive(true);
             if(Black.color.a < 1)
             {
                 BlackCount += Time.deltaTime / 3;

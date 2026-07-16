@@ -14,6 +14,7 @@ public class SceneMove : MonoBehaviour
     }
     public void ScreenTouch(InputAction.CallbackContext context)
     {
-        SceneManager.LoadScene("MainGame");
+        if (context.canceled)
+            SceneManager.LoadScene("MainGame");
     }
 }
